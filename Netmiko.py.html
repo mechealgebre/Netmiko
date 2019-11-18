@@ -1,0 +1,79 @@
+
+# coding: utf-8
+
+# In[1]:
+
+
+from netmiko import ConnectHandler
+from breezypythongui import EasyFrame
+from tkinter import *
+
+#Global variable 
+dis_switch = {'device_type':'cisco_ios','ip':'192.168.1.24','username':'enscade','password':'mango'}
+vp02_router = {'device_type':'cisco_ios','ip':'192.168.1.17','username':'enscade','password':'mango'}
+Apple_router = {'device_type':'cisco_ios','ip':'192.168.1.38','username':'enscade','password':'mango'}
+VP02_router = {'device_type':'cisco_ios','ip':'192.168.1.33','username':'enscade','password':'mango'}
+sec_dis_switch = {'device_type':'cisco_ios','ip':'192.168.1.41','username':'enscade','password':'mango'}
+devices = {dis_switch['ip']:dis_switch,vp02_router['ip']:vp02_router,Apple_router['ip']:Apple_router,VP02_router['ip']:VP02_router,
+sec_dis_switch['ip']:sec_dis_switch}
+interfaces = []
+
+class NetworkProgramming(EasyFrame):
+    """Gets data from the network given its device ip address"""
+    def __init__(self):
+        """set up the new window"""
+        EasyFrame.__init__(self,title='Network Programming',width=1000,height=800)
+        #EasyFrame.setBackground(self,'grey')
+        
+        #Label and device row
+        self.devicegroup = self.addRadiobuttonGroup(row=0,column = 0,rowspan=5,orient='vertical')
+        self.devicegroup.setSelectedButton(self.devicegroup.addRadiobutton(text='192.168.1.24'))
+        self.devicegroup.addRadiobutton(text='192.168.1.17')
+        self.devicegroup.addRadiobutton(text='192.168.1.38')
+        self.devicegroup.addRadiobutton(text='192.168.1.33')
+        self.devicegroup.addRadiobutton(text='192.168.1.41')
+        
+        
+        #Label and input field for device ip address 
+        #self.addLabel(text="Enter device ip address",row=2,column=0)
+        #self.ip = self.addTextField(text="",row=2,column=1)
+        
+        #Lable and input fielf for commands
+        self.addLabel(text="Enter show command",row=4,column=1)
+        self.command = self.addTextField(text="",row=4,column=2)
+    
+    
+        #Label and button for convert & reset
+        self.addButton(text='Enter',row=5,column = 1,command = self.enter)
+        self.addButton(text='Reset',row=5,column = 2,command = self.reset)
+        
+        #Label and result
+        self.output = self.addTextArea("",row=6,column=2,width=60,height=15)
+        
+        #Lable and input the file name to save
+        self.addLabel("Enter file name to be saved",row=7,column=0)
+        self.file = self.addTextField("",row=7,column=1)
+        self.addButton(text='save output',row=7,column=2,command=self.save)
+        
+    def enter(self):
+        """connects to the device and retrieves the output"""
+        connect = ConnectHandler(**devices[self.devicegroup.getSelectedButton()["text"]])
+        self.result = connect.send_command(self.command.getText())
+        self.output.setText(self.result)
+    def reset(self):
+        """reset the input"""
+        self.ip.setText("")
+        self.command.setText("")
+        self.output.setText("")
+    def save(self):
+        """saves the files in the working directory"""
+        f = open(self.file.getText(),'w+')
+        f.write(self.result)
+        f.close()
+
+def main():
+    NetworkProgramming().mainloop()
+if __name__ == "__main__":
+    main()
+        
+
