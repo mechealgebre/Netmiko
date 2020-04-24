@@ -10,11 +10,11 @@ from tkinter import *
 
 #Global variable 
 dis_switch = {'device_type':'cisco_ios','ip':'192.168.1.24','username':'enscade','password':'mango'}
-vp02_router = {'device_type':'cisco_ios','ip':'192.168.1.17','username':'enscade','password':'mango'}
-Apple_router = {'device_type':'cisco_ios','ip':'192.168.1.38','username':'enscade','password':'mango'}
-VP02_router = {'device_type':'cisco_ios','ip':'192.168.1.33','username':'enscade','password':'mango'}
+GW_router = {'device_type':'cisco_ios','ip':'192.168.1.17','username':'enscade','password':'mango'}
+WAN_1_router = {'device_type':'cisco_ios','ip':'192.168.1.38','username':'enscade','password':'mango'}
+WAN_2_router = {'device_type':'cisco_ios','ip':'192.168.1.33','username':'enscade','password':'mango'}
 sec_dis_switch = {'device_type':'cisco_ios','ip':'192.168.1.41','username':'enscade','password':'mango'}
-devices = {dis_switch['ip']:dis_switch,vp02_router['ip']:vp02_router,Apple_router['ip']:Apple_router,VP02_router['ip']:VP02_router,
+devices = {dis_switch['ip']:dis_switch,GW_router['ip']:GW_router,WAN_1_router['ip']:WAN_1_router,WAN_2_router['ip']:WAN_2_router,
 sec_dis_switch['ip']:sec_dis_switch}
 interfaces = []
 
